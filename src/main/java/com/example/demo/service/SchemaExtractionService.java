@@ -95,7 +95,60 @@ public class SchemaExtractionService {
         Map<String, Object> schemaMap = new HashMap<>();
         schemaMap.put("tables", schema);
 
+        // Add constraints
+        List<Map<String, String>> constraints = new ArrayList<>();
+        constraints.add(createConstraint("Supplier", "Batch No", "Production Process Data", "Batch No"));
+        constraints.add(createConstraint("Die Information", "Component ID", "Production Process Data", "Component ID"));
+        constraints.add(createConstraint("Production Process Data", "Component ID", "Component Quality Measurements", "Component ID"));
+        constraints.add(createConstraint("Production Process Data", "Component ID", "Trimming and Hole-Cutting Process Data", "Component ID"));
+        constraints.add(createConstraint("Trimming and Hole-Cutting Process Data", "Component ID", "BIW Component Mapping", "Component ID"));
+        constraints.add(createConstraint("BIW Component Mapping", "BIW ID", "BIW Weld Data", "BIW ID"));
+        constraints.add(createConstraint("Welding Path Data", "BIW ID", "BIW Weld Data", "BIW ID"));
+        constraints.add(createConstraint("Welding Path Data", "Path ID", "Welding Deviations", "Path ID"));
+        constraints.add(createConstraint("BIW Component Mapping", "Component ID", "Component Defect Details", "Component ID"));
+        constraints.add(createConstraint("BIW Component Mapping", "BIW ID", "Sanding Data", "BIW ID"));
+        constraints.add(createConstraint("Sanding Data", "BIW ID", "Sealing Data", "BIW ID"));
+        constraints.add(createConstraint("Sealing Data", "BIW ID", "Drying Data", "BIW ID"));
+        constraints.add(createConstraint("Drying Data", "BIW ID", "Priming Data", "BIW ID"));
+        constraints.add(createConstraint("Priming Data", "BIW ID", "Base Coating Data", "BIW ID"));
+        constraints.add(createConstraint("Base Coating Data", "BIW ID", "Clear Coating Data", "BIW ID"));
+        constraints.add(createConstraint("Clear Coating Data", "BIW ID", "Paint Inspection Results", "BIW ID"));
+        constraints.add(createConstraint("Clear Coating Data", "BIW ID", "Door Assembly Data", "BIW ID"));
+        constraints.add(createConstraint("Door Assembly Data", "BIW ID", "Dashboard Installation Data", "BIW ID"));
+        constraints.add(createConstraint("Dashboard Installation Data", "BIW ID", "Windscreen Assembly Data", "BIW ID"));
+        constraints.add(createConstraint("Windscreen Assembly Data", "BIW ID", "Chassis Assembly Data", "BIW ID"));
+        constraints.add(createConstraint("Chassis Assembly Data", "BIW ID", "Body Marriage Data", "BIW ID"));
+        constraints.add(createConstraint("Body Marriage Data", "BIW ID", "Wheel Assembly Data", "BIW ID"));
+        constraints.add(createConstraint("Wheel Assembly Data", "BIW ID", "Seat Assembly", "BIW ID"));
+        constraints.add(createConstraint("Seat Assembly", "BIW ID", "Door Reassembly", "BIW ID"));
+        constraints.add(createConstraint("Door Reassembly", "BIW ID", "Final Inspection Results", "BIW ID"));
+        constraints.add(createConstraint("BIW Component Mapping", "BIW ID", "Sealing Data", "BIW ID"));
+        constraints.add(createConstraint("BIW Component Mapping", "BIW ID", "Drying Data", "BIW ID"));
+        constraints.add(createConstraint("BIW Component Mapping", "BIW ID", "Priming Data", "BIW ID"));
+        constraints.add(createConstraint("BIW Component Mapping", "BIW ID", "Base Coating Data", "BIW ID"));
+        constraints.add(createConstraint("BIW Component Mapping", "BIW ID", "Clear Coating Data", "BIW ID"));
+        constraints.add(createConstraint("BIW Component Mapping", "BIW ID", "Paint Inspection Results", "BIW ID"));
+        constraints.add(createConstraint("BIW Component Mapping", "BIW ID", "Door Assembly Data", "BIW ID"));
+        constraints.add(createConstraint("BIW Component Mapping", "BIW ID", "Dashboard Installation Data", "BIW ID"));
+        constraints.add(createConstraint("BIW Component Mapping", "BIW ID", "Windscreen Assembly Data", "BIW ID"));
+        constraints.add(createConstraint("BIW Component Mapping", "BIW ID", "Chassis Assembly Data", "BIW ID"));
+        constraints.add(createConstraint("BIW Component Mapping", "BIW ID", "Body Marriage Data", "BIW ID"));
+        constraints.add(createConstraint("BIW Component Mapping", "BIW ID", "Wheel Assembly Data", "BIW ID"));
+        constraints.add(createConstraint("BIW Component Mapping", "BIW ID", "Seat Assembly", "BIW ID"));
+        constraints.add(createConstraint("BIW Component Mapping", "BIW ID", "Door Reassembly", "BIW ID"));
+
+        schemaMap.put("constraints", constraints);
+
         ObjectMapper objectMapper = new ObjectMapper();
         return objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(schemaMap);
+    }
+
+    private Map<String, String> createConstraint(String sourceTable, String sourceCol, String targetTable, String targetCol) {
+        Map<String, String> constraint = new HashMap<>();
+        constraint.put("sourceTable", sourceTable);
+        constraint.put("sourceCol", sourceCol);
+        constraint.put("targetTable", targetTable);
+        constraint.put("targetCol", targetCol);
+        return constraint;
     }
 }
